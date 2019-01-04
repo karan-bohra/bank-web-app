@@ -8,6 +8,8 @@ var cors = require('cors')
 var userInfo = require('./routes/userInfo');
 var createCheckUser = require('./routes/createCheckUser');
 var deposit = require('./routes/deposit');
+var withdraw = require('./routes/withdraw');
+var transactions = require('./routes/transactions');
 
 var app = express();
 
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/get-user-info', userInfo);
 app.use('/create-check-user', createCheckUser);
 app.use('/deposit', deposit);
+app.use('/withdraw', withdraw);
+app.use('/transactions', transactions);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

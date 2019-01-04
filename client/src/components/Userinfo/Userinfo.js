@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Card, CardTitle, CardText } from 'reactstrap';
 
 class Userinfo extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <Card body>

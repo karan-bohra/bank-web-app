@@ -16,13 +16,14 @@ class Content extends React.Component {
       currentBalance: '',
       accountNumber: ''
     }
+
+    this.updateUserData = this.updateUserData.bind(this);
   }
 
   componentDidMount(){
-    const data = 
     axios.get(Constants.apiEndPoint + '/get-user-info/' + localStorage.getItem('email'))
     .then(response => {
-      const data = response.data.data[0];console.log(data);
+      const data = response.data.data[0];
       this.setState({
         name: data.name,
         email: data.email,
@@ -31,8 +32,14 @@ class Content extends React.Component {
       })
     })
     .catch(error => {
-
+      console.log(error);
     });
+  }
+
+  updateUserData(amount){
+    let cbl = this.state.currentBalance + amount;
+    cbl = cbl < 1 ? 1 : cbl;
+    this.setState({ currentBalance: cbl })
   }
 
   render() {
@@ -43,7 +50,7 @@ class Content extends React.Component {
           isLoggedIn={this.props.isLoggedIn} 
           logInOut={this.props.logInOut}
         />
-        <Routes userData={this.state} />
+        <Routes userData={this.state} updateUserData={this.updateUserData} />
         <Card body>
           <CardText className="text-right">
             Created with love by <b>Karan Bohra</b>

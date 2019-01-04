@@ -11,10 +11,9 @@ class SideBar extends React.Component {
       <div className={classNames('sidebar', {'is-open': this.props.isOpen})}>
         <div className="sidebar-header">
           <a color="info" onClick={this.props.toggle} style={{color: '#fff'}} >&times;</a>
-          <h3>Bootstrap Sidebar</h3>
+          <h3>Bank App Sidebar</h3>
         </div>
         <Nav vertical className="list-unstyled pb-3">
-          <p>Dummy Heading</p>
           <NavItem className="sub-menu">
             <FontAwesomeIcon icon={faTachometerAlt} className="mr-2"/>
             <Link to="/">Dashboard</Link>
@@ -30,10 +29,6 @@ class SideBar extends React.Component {
           <NavItem className="sub-menu">
             <FontAwesomeIcon icon={faArrowsAltH} className="mr-2"/>
             <Link to="/transactions">Transactions</Link>
-          </NavItem>
-          <NavItem className="sub-menu">
-            <FontAwesomeIcon icon={faLock} className="mr-2"/>
-            <Link to="/admin">Admin</Link>
           </NavItem>
         </Nav>
       </div>

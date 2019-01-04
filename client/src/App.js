@@ -25,7 +25,7 @@ class App extends Component {
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
-  logInOut = () => {
+  logInOut = () => {console.log('lilo');
     this.setState({ isLoggedIn: !this.state.isLoggedIn });
   }
 

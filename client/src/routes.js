@@ -27,31 +27,35 @@ const LoadableTransactions = Loadable({
 });
 
 class Routes extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
     	<Switch>
 	      <Route path="/dashboard"
           render={
             (props) => 
-              <LoadableDashboard {...props} userData={this.props.userData} />
+              <LoadableDashboard {...this.props} />
           }
         />
         <Route path="/deposit"
           render={
             (props) => 
-              <LoadableDeposit {...props} userData={this.props.userData} />
+              <LoadableDeposit {...this.props} />
           }
         />
         <Route path="/withdraw"
           render={
             (props) => 
-              <LoadableWithdraw {...props} userData={this.props.userData} />
+              <LoadableWithdraw {...this.props} />
           }
         />
         <Route path="/transactions"
           render={
             (props) => 
-              <LoadableTransactions {...props} userData={this.props.userData} />
+              <LoadableTransactions {...this.props} />
           }
         />
 	      <Redirect from="/" to="/dashboard" />

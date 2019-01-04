@@ -17,8 +17,7 @@ class Auth extends React.Component {
 
   handleSignInUp = e => {
     e.preventDefault();
-
-    const data =
+    
     axios.post(Constants.apiEndPoint + '/create-check-user', this.state)
     .then(response => {
       this.props.logInOut();

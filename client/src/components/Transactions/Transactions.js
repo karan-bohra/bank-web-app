@@ -10,37 +10,32 @@ class Transactions extends Component {
     }
   }
 
+  unixTime(unixtime) {
+    let u = new Date(unixtime*1000);
+    return u.getUTCFullYear() +
+      '-' + ('0' + u.getUTCMonth() + 1).slice(-2) +
+      '-' + ('0' + u.getUTCDate()).slice(-2) + 
+      ' ' + ('0' + u.getUTCHours()).slice(-2) +
+      ':' + ('0' + u.getUTCMinutes()).slice(-2)
+  };
+
   render() {
     return (
       <ListGroup>
         <ListGroupItem>
-          <b>Transactions</b>
+          <b>{this.props.title}</b>
         </ListGroupItem>
-        <ListGroupItem>
-          <b>Dec, 31, 02:00 PM</b>
-          <FontAwesomeIcon icon={faLevelDownAlt} className="mr-2"/>
-          Cras justo odio
-        </ListGroupItem>
-        <ListGroupItem>
-          <b>Dec, 31, 02:00 PM</b>
-          <FontAwesomeIcon icon={faLevelUpAlt} className="mr-2"/>
-          Cras justo odio
-        </ListGroupItem>
-        <ListGroupItem>
-          <b>Dec, 31, 02:00 PM</b>
-          <FontAwesomeIcon icon={faLevelUpAlt} className="mr-2"/>
-          Cras justo odio
-        </ListGroupItem>
-        <ListGroupItem>
-          <b>Dec, 31, 02:00 PM</b>
-          <FontAwesomeIcon icon={faLevelDownAlt} className="mr-2"/>
-          Cras justo odio
-        </ListGroupItem>
-        <ListGroupItem>
-          <b>Dec, 31, 02:00 PM</b>
-          <FontAwesomeIcon icon={faLevelUpAlt} className="mr-2"/>
-          Cras justo odio
-        </ListGroupItem>
+
+        {this.props.transactions.map((transaction) =>
+          <ListGroupItem key={transaction.timeStamp}>
+            <b>{this.unixTime(transaction.timeStamp/1000)}</b>
+            <Badge className="badge">
+              <FontAwesomeIcon icon={transaction.logType == 'deposit' ? faLevelDownAlt : faLevelUpAlt} />
+            </Badge>
+            {transaction.logType == 'deposit' ? (<span>Deposited</span>) : (<span>Withdrew</span>)} <b>Rs.</b> 
+            <span className="money">{transaction.amount}</span>
+          </ListGroupItem>
+        )}
       </ListGroup>
     );
   }

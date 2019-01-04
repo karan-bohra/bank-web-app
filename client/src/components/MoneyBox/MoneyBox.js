@@ -9,29 +9,34 @@ class MoneyBox extends Component {
     this.state = {
       amount: ''
     }
+
+    this.handleTransaction = this.handleTransaction.bind(this);
   }
 
   handleTransaction = e => {
     e.preventDefault();
 
-    const data =
     axios.post(Constants.apiEndPoint + '/' + this.props.title.toLowerCase(), {
       amount: this.state.amount,
       email: localStorage.getItem('email')
     })
     .then(response => {
-      
+      const data = response.data.data;
+
+      if(this.props.title == 'Withdraw')
+        data.amount = -data.amount;
+
+      this.props.updateUserData(data.amount);
     })
     .catch(error => {
-
+      console.log(error);
     });
   }
 
   render() {
-    const { title } = this.props;
     return (
       <Card body>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>{this.props.title}</CardTitle>
         <Container>
           <Form onSubmit={this.handleTransaction}>
             <Row>
@@ -45,7 +50,7 @@ class MoneyBox extends Component {
                 </InputGroup>
               </Col>
               <Col md="6" sm="12" className="input-resp">
-                <Button color="primary">{title}</Button>
+                <Button color="primary">{this.props.title}</Button>
               </Col>
             </Row>
           </Form>

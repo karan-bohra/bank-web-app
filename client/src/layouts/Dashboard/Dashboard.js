@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Loadable from 'react-loadable';
+import axios from 'axios';
 
 /* Load Custom Modules */
 import Loading from '../../components/Loading';
+import Constants from '../../Constants';
 
 const LoadableUserinfo = Loadable({
   loader: () => import('../../components/Userinfo'),
@@ -23,15 +25,32 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 0,
+      type: 'all',
+      limit: 5,
+      transactions: []
     }
   }
 
-  render() {console.log(this.props);
+  componentDidMount(){
+    axios.get(Constants.apiEndPoint + '/transactions/' + localStorage.getItem('email') + '/?limit=' + this.state.limit + '&page=' + this.state.page + '&type=' + this.state.type)
+    .then(response => {
+      const data = response.data.data;
+      this.setState({
+        transactions: data
+      })
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+  render() {
     return (
       <div>
         <LoadableUserinfo userData={this.props.userData} />
         <LoadableAccountDetails userData={this.props.userData} />
-        <LoadableTransactions />
+        <LoadableTransactions transactions={this.state.transactions} title="Recent Transactions" />
       </div>
     );
   }

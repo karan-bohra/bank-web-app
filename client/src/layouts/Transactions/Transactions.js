@@ -1,47 +1,68 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem, Badge } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLevelUpAlt, faLevelDownAlt } from '@fortawesome/free-solid-svg-icons';
+import Loadable from 'react-loadable';
+import axios from 'axios';
+
+/* Load Custom Modules */
+import Loading from '../../components/Loading';
+import Constants from '../../Constants';
+
+const LoadableTransactions = Loadable({
+  loader: () => import('../../components/Transactions'),
+  loading: Loading
+});
+
+const LoadableFilterBox = Loadable({
+  loader: () => import('../../components/FilterBox'),
+  loading: Loading
+});
 
 class Transactions extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      limit: 25,
+      page: 0,
+      type: 'all',
+      from: '',
+      to: '',
+      transactions: []
     }
+    this.updateFilters = this.updateFilters.bind(this);
+  }
+
+  componentDidMount(){
+    this.updateTransactions();
+  }
+
+  updateTransactions = () => {
+    axios.get(Constants.apiEndPoint + '/transactions/' + localStorage.getItem('email') + '/?limit=' + this.state.limit + '&page=' + this.state.page + '&type=' + this.state.type + '&from=' + this.state.from + '&to=' + this.state.to)
+    .then(response => {
+      const data = response.data.data;
+      this.setState({
+        transactions: data
+      })
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+  updateFilters = filters => {
+    this.setState({
+      from: filters.from || '',
+      to: filters.to || '',
+      type: filters.type || 'all'
+    });
+
+    this.updateTransactions();
   }
 
   render() {
     return (
-      <ListGroup>
-        <ListGroupItem>
-          <b>Transactions</b>
-        </ListGroupItem>
-        <ListGroupItem>
-          <b>Dec, 31, 02:00 PM</b>
-          <FontAwesomeIcon icon={faLevelDownAlt} className="mr-2"/>
-          Cras justo odio
-        </ListGroupItem>
-        <ListGroupItem>
-          <b>Dec, 31, 02:00 PM</b>
-          <FontAwesomeIcon icon={faLevelUpAlt} className="mr-2"/>
-          Cras justo odio
-        </ListGroupItem>
-        <ListGroupItem>
-          <b>Dec, 31, 02:00 PM</b>
-          <FontAwesomeIcon icon={faLevelUpAlt} className="mr-2"/>
-          Cras justo odio
-        </ListGroupItem>
-        <ListGroupItem>
-          <b>Dec, 31, 02:00 PM</b>
-          <FontAwesomeIcon icon={faLevelDownAlt} className="mr-2"/>
-          Cras justo odio
-        </ListGroupItem>
-        <ListGroupItem>
-          <b>Dec, 31, 02:00 PM</b>
-          <FontAwesomeIcon icon={faLevelUpAlt} className="mr-2"/>
-          Cras justo odio
-        </ListGroupItem>
-      </ListGroup>
+      <div>
+        <LoadableFilterBox updateFilters={this.updateFilters} />
+        <LoadableTransactions transactions={this.state.transactions} title="Transactions" />
+      </div>
     );
   }
 }
