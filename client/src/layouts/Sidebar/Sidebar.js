@@ -11,7 +11,7 @@ class SideBar extends React.Component {
       <div className={classNames('sidebar', {'is-open': this.props.isOpen})}>
         <div className="sidebar-header">
           <a color="info" onClick={this.props.toggle} style={{color: '#fff'}} >&times;</a>
-          <h3>Bank App Sidebar</h3>
+          <h3>Bank Application</h3>
         </div>
         <Nav vertical className="list-unstyled pb-3">
           <NavItem className="sub-menu">
