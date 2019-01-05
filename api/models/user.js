@@ -19,7 +19,10 @@ var userSchema = new schema({
 		type: Boolean,
 		default: true
 	},
-	currentBalance: Number,
+	currentBalance: {
+		type: Number,
+		min: 1
+	},
 	accountNumber: Number,
 	timeStamp: Number
 },

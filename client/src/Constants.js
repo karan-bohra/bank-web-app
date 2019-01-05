@@ -1,5 +1,5 @@
 const Constants = {
-	apiEndPoint: 'http://localhost:3000'
+	apiEndPoint: 'http://54.218.123.55'
 }
 
 export default Constants;
